@@ -45,22 +45,27 @@ Para correr este proyecto en tu propia máquina de manera local, sigue los sigui
 
 ## 📸 Capturas de Pantalla (CRUD Funcionando)
 
-> *(Nota para la entrega: Reemplaza estos espacios colocando aquí tus propias capturas usando la herramienta recortes de Windows)*
+
 
 **1. Vista Principal (Index del CRUD)**
-![Insertar Captura de Pantalla Index]()
+<img width="1600" height="815" alt="1" src="https://github.com/user-attachments/assets/b93958c4-780a-41aa-9a4d-94ed409fe1a6" />
+
 
 **2. Formulario de Creación (Create)**
-![Insertar Captura de Pantalla Create]()
+<img width="1598" height="819" alt="image" src="https://github.com/user-attachments/assets/3bb9fc0c-613f-4099-8b5d-67d014fa37b7" />
+
 
 **3. Tarjeta de Detalle (Show)**
-![Insertar Captura de Pantalla Show]()
+<img width="1600" height="827" alt="image" src="https://github.com/user-attachments/assets/857e25da-601a-4452-b076-63b9678f0d9f" />
+
 
 **4. Formulario de Edición (Edit)**
-![Insertar Captura de Pantalla Edit]()
+<img width="1600" height="823" alt="image" src="https://github.com/user-attachments/assets/bb4bcb6d-fed9-41ee-9c4f-1e2fd665fc06" />
+
 
 **5. Eliminación Exitosa (Delete)**
-![Insertar Captura de Pantalla Delete]()
+<img width="1600" height="825" alt="image" src="https://github.com/user-attachments/assets/29980efd-5127-418f-88c2-338daf207042" />
+
 
 ---
 
