@@ -1,0 +1,631 @@
+SENA
+Servicio Nacional de Aprendizaje
+PROCESO DE GESTIÓN DE FORMACIÓN PROFESIONAL INTEGRAL
+FORMATO GUÍA DE APRENDIZAJE
+GFPI-F-135
+Versión: 02
+1.  IDENTIFICACIÓN DE LA GUÍA DE APRENDIZAJE
+Programa de Formación:
+Análisis y Desarrollo de Software
+Código del Programa:
+228185
+Nombre del Proyecto Formativo:
+N/A
+Fase del Proyecto:
+N/A
+Actividad de Proyecto:
+N/A
+Competencia:
+Desarrollar aplicaciones web dinámicas utilizando frameworks del lado del servidor
+Resultados de Aprendizaje:
+1. Instalar y configurar el entorno de desarrollo Laravel en Windows con VS Code y SQLite.
+2. Comprender la estructura de un proyecto Laravel y los comandos Artisan esenciales.
+3. Construir un CRUD funcional usando Eloquent ORM, Blade Templates y rutas RESTful.
+Duración total de la Guía:
+12 horas (Clase 1: 6 horas | Clase 2: 6 horas)
+Herramientas:
+PHP 8.2+, Composer, Laravel 11, SQLite, VS Code, Git Bash / PowerShell
+2.  PRESENTACIÓN
+Laravel es uno de los frameworks PHP más populares y elegantes del mundo del desarrollo web. Creado por Taylor Otwell en 2011, su filosofía es hacer que el desarrollo sea una experiencia agradable sin sacrificar la funcionalidad. En esta guía aprenderás desde cero: cómo instalar el entorno, cómo navegar la estructura del proyecto, cómo usar la línea de comandos Artisan y, finalmente, cómo construir tu primer CRUD completo con base de datos real.
+Ya tienes experiencia con Node.js, React y Django, lo que te da una ventaja enorme: conoces el patrón MVC, entiendes el concepto de ORM y sabes lo que es un sistema de rutas. Laravel usa exactamente esos mismos conceptos, pero con la sintaxis de PHP y su propio conjunto de herramientas. Verás que muchas cosas te resultarán familiares.
+Esta guía está dividida en dos clases de 6 horas cada una. La primera clase cubre la instalación, configuración y fundamentos del framework. La segunda clase es completamente práctica: construirás un CRUD de gestión de estudiantes paso a paso, escribiendo cada línea de código con su explicación.
+⚠️ IMPORTANTE
+Esta guía está diseñada para seguirse en orden. Cada paso depende del anterior. Si algo no funciona, no avances: resuelve el problema primero, porque los errores de instalación suelen arrastrase a lo largo del proyecto.
+3.  FORMULACIÓN DE LAS ACTIVIDADES DE APRENDIZAJE
+CLASE 1 — Instalación, configuración y fundamentos de Laravel  (6 horas)
+3.1  Actividad de reflexión inicial  (30 min)
+Antes de instalar cualquier herramienta, reflexiona individualmente y responde en tu bitácora:
+¿Qué diferencias y similitudes encuentras entre Django (Python) y un framework PHP?
+¿Qué es Composer y para qué crees que sirve en un proyecto PHP?
+Si tuvieras que describir MVC a alguien que nunca ha programado, ¿cómo lo harías?
+Luego comparte tus respuestas con el compañero de al lado. El instructor abre 10 minutos de plenaria para conectar las respuestas con lo que van a ver hoy.
+3.2  Actividad de contextualización  (30 min)
+El instructor explica brevemente los siguientes conceptos antes de entrar a instalar:
+Concepto
+Explicación rápida
+PHP 8.2+
+Lenguaje de servidor base de Laravel. Necesitamos la versión 8.1 o superior para Laravel 11.
+Composer
+Gestor de dependencias de PHP (equivalente a npm en Node.js o pip en Python). Sin él, no se puede instalar Laravel.
+MVC en Laravel
+Model: Eloquent ORM (maneja la BD). View: Blade Templates (HTML dinámico). Controller: clase PHP que recibe la petición y decide qué hacer.
+Artisan CLI
+Herramienta de línea de comandos de Laravel. Con ella creas archivos, ejecutas migraciones, arrancas el servidor y mucho más.
+SQLite
+Base de datos en un solo archivo .sqlite. No necesita servidor. Perfecta para desarrollo y aprendizaje.
+Blade
+Motor de plantillas de Laravel. Mezcla HTML con lógica PHP de forma limpia usando directivas como @foreach, @if, @extends.
+3.3  Actividad de apropiación — Instalación paso a paso  (4 horas)
+1
+Verificar e instalar PHP 8.2+ en Windows
+Abre PowerShell o Git Bash y escribe:
+php -v
+Si ves algo como PHP 8.2.x o superior, ¡ya está instalado! Si no aparece o la versión es menor a 8.1, sigue estos pasos:
+Ve a https://windows.php.net/download
+Descarga la versión más reciente: PHP 8.2 VS16 x64 Thread Safe (.zip)
+Descomprime el archivo en C:\php
+Copia el archivo C:\php\php.ini-development, pégalo en la misma carpeta y renómbralo php.ini
+Abre php.ini con VS Code y busca (Ctrl+F) estas líneas — quita el punto y coma (;) del inicio para habilitarlas:
+;extension=pdo_sqlite   →   extension=pdo_sqlite
+;extension=sqlite3      →   extension=sqlite3
+;extension=openssl      →   extension=openssl
+;extension=mbstring     →   extension=mbstring
+;extension=fileinfo     →   extension=fileinfo
+;extension=curl         →   extension=curl
+;extension=zip          →   extension=zip
+Agrega C:\php a la variable de entorno PATH (Panel de control → Sistema → Variables de entorno → Path → Editar → Nuevo → C:\php)
+Cierra y vuelve a abrir PowerShell. Ejecuta php -v para verificar.
+✅ CONSEJO
+Si en la sala ya tienen XAMPP instalado, PHP ya está disponible. Prueba: C:\xampp\php\php.exe -v. En ese caso agrega C:\xampp\php al PATH.
+2
+Instalar Composer
+Composer es el gestor de paquetes de PHP. Sin él no puedes crear proyectos Laravel.
+Ve a https://getcomposer.org/download
+Descarga Composer-Setup.exe y ejecútalo
+El instalador detectará PHP automáticamente (asegúrate de que apunte a C:\php\php.exe)
+Finaliza la instalación y verifica en PowerShell:
+composer --version
+Deberías ver algo como: Composer version 2.x.x
+⚠️ IMPORTANTE
+Si Composer dice que PHP no está en el PATH, cierra y vuelve a abrir PowerShell. Si sigue sin funcionar, reinicia Windows y vuelve a intentar.
+3
+Crear el primer proyecto Laravel
+Ahora sí: crea tu primer proyecto Laravel. En PowerShell, navega al escritorio o a tu carpeta de proyectos y ejecuta:
+cd C:\Users\TuUsuario\Desktop
+composer create-project laravel/laravel mi-primer-laravel
+Esto descargará Laravel y todas sus dependencias (puede tardar 2-5 minutos según la conexión). Cuando termine:
+cd mi-primer-laravel
+php artisan serve
+Abre tu navegador y ve a: http://localhost:8000
+Deberías ver la pantalla de bienvenida de Laravel con el texto 'Laravel' y la versión. ¡Felicitaciones, tu primer proyecto Laravel está vivo!
+⚠️ IMPORTANTE
+Si aparece el error 'No application encryption key has been set', ejecuta: php artisan key:generate
+4
+Abrir el proyecto en VS Code y explorar la estructura
+Con el servidor corriendo en una terminal, abre una segunda terminal y ejecuta:
+code .
+VS Code abrirá el proyecto. Instala la extensión recomendada: busca 'Laravel Blade Snippets' en el panel de extensiones (Ctrl+Shift+X).
+Ahora explora cada carpeta. Esta es la estructura que más usarás:
+Archivo / Carpeta
+¿Para qué sirve?
+app/Models/
+Aquí van los Modelos (clases PHP que representan tablas de la BD)
+app/Http/Controllers/
+Aquí van los Controladores (lógica de la aplicación)
+database/migrations/
+Archivos que definen la estructura de las tablas de la BD
+resources/views/
+Las Vistas: archivos Blade (.blade.php) con el HTML
+routes/web.php
+Todas las rutas de tu aplicación web van aquí
+.env
+Variables de entorno: BD, correo, app name, etc. (¡nunca lo subas a Git!)
+public/
+La carpeta pública: aquí apunta el servidor web
+storage/
+Archivos generados: logs, caché, uploads
+composer.json
+Lista de dependencias PHP del proyecto (como package.json en Node)
+artisan
+El punto de entrada de la CLI de Laravel
+5
+Configurar SQLite como base de datos
+Laravel usa MySQL por defecto, pero nosotros configuraremos SQLite porque no requiere instalar ningún servidor adicional.
+Abre el archivo .env en la raíz del proyecto con VS Code y busca la sección de base de datos. Reemplaza todo el bloque DB_* con esto:
+DB_CONNECTION=sqlite
+# Elimina o comenta estas líneas si existen:
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=laravel
+# DB_USERNAME=root
+# DB_PASSWORD=
+Luego crea el archivo de base de datos (Laravel lo espera aquí por defecto):
+# En PowerShell dentro de la carpeta del proyecto:
+New-Item -ItemType File database\database.sqlite
+Verifica que la conexión funciona ejecutando:
+php artisan migrate
+Deberías ver una lista de migraciones ejecutadas (users, cache, jobs). Si no hay errores, ¡la BD está lista!
+✅ CONSEJO
+El archivo database.sqlite está dentro de la carpeta database/ del proyecto. Puedes abrirlo con la extensión SQLite Viewer de VS Code para ver las tablas gráficamente.
+6
+Dominar los comandos Artisan esenciales
+Artisan es tu mejor amigo en Laravel. Aprende estos comandos de memoria:
+Comando
+¿Qué hace?
+php artisan serve
+Arranca el servidor de desarrollo en http://localhost:8000
+php artisan list
+Muestra todos los comandos disponibles
+php artisan --version
+Muestra la versión de Laravel instalada
+php artisan make:model Nombre
+Crea un Modelo nuevo en app/Models/
+php artisan make:controller NombreController
+Crea un Controlador en app/Http/Controllers/
+php artisan make:migration nombre_tabla
+Crea un archivo de migración de BD
+php artisan migrate
+Ejecuta todas las migraciones pendientes
+php artisan migrate:rollback
+Deshace la última migración ejecutada
+php artisan migrate:fresh
+Borra todas las tablas y las vuelve a crear
+php artisan migrate:status
+Muestra el estado de cada migración
+php artisan route:list
+Lista todas las rutas registradas en la aplicación
+php artisan tinker
+Abre una consola interactiva PHP conectada a tu app
+php artisan make:model Nombre -mcr
+Crea Modelo + Migración + Controlador Resource en un solo comando
+✅ CONSEJO
+El flag -mcr al crear un modelo es muy poderoso: genera los tres archivos que más necesitas de una sola vez. Lo usarás en la Clase 2.
+3.4  Actividad de transferencia — Clase 1  (1 hora)
+Antes de terminar la primera clase, cada aprendiz debe completar de forma autónoma:
+Crear una segunda ruta en routes/web.php que responda en /bienvenida y retorne una vista Blade con su nombre y el texto 'Bienvenido a mi primer proyecto Laravel'.
+Crear la vista correspondiente en resources/views/bienvenida.blade.php usando la estructura básica de Blade: <!DOCTYPE html>, <html>, <body>.
+Documentar en la bitácora: los 5 comandos Artisan que más usaron hoy, la diferencia entre .env y config/, y qué hace el método Route::get() en web.php.
+Subir el proyecto a un repositorio GitHub con el nombre 'laravel-clase1'. Incluir un README.md con los pasos de instalación.
+💡 NOTA
+Para crear la vista, en VS Code crea el archivo resources/views/bienvenida.blade.php y escribe HTML normal. Laravel lo encontrará automáticamente cuando uses return view('bienvenida') en la ruta.
+CLASE 2 — CRUD completo con Eloquent, Blade y rutas RESTful  (6 horas)
+En esta clase construirás un sistema de gestión de estudiantes con las cuatro operaciones básicas: Crear, Leer, Actualizar y Eliminar. Al final tendrás una aplicación web funcional conectada a una base de datos real.
+⚠️ IMPORTANTE
+Trabaja en el mismo proyecto de la Clase 1. Si algo quedó sin funcionar, este es el momento de resolverlo antes de avanzar.
+3.5  Contextualización — El ciclo de una petición en Laravel  (30 min)
+Antes de escribir código, entendamos el flujo completo de una petición en Laravel:
+#
+Quién actúa
+¿Qué hace?
+1
+Navegador
+El usuario escribe una URL o hace clic en un enlace: GET /estudiantes
+2
+routes/web.php
+Laravel revisa el archivo de rutas y busca cuál ruta coincide con /estudiantes
+3
+Controller
+La ruta llama al método index() del EstudianteController
+4
+Model (Eloquent)
+El controlador le pide al Modelo todos los estudiantes: Estudiante::all()
+5
+Base de datos (SQLite)
+Eloquent traduce eso a SQL: SELECT * FROM estudiantes
+6
+Controller
+El controlador recibe los datos y los envía a la Vista: return view('estudiantes.index', compact('estudiantes'))
+7
+View (Blade)
+La vista recibe los datos y genera el HTML con @foreach
+8
+Navegador
+El HTML llega al navegador y el usuario ve la lista de estudiantes
+3.6  Actividad de apropiación — Construyendo el CRUD paso a paso  (4.5 horas)
+1
+Crear el Modelo, Migración y Controlador (con un solo comando)
+Ejecuta este comando en la terminal desde la carpeta del proyecto:
+php artisan make:model Estudiante -mcr
+Este comando crea tres archivos de una vez:
+app/Models/Estudiante.php — El Modelo
+database/migrations/xxxx_create_estudiantes_table.php — La Migración
+app/Http/Controllers/EstudianteController.php — El Controlador con los 7 métodos RESTful
+💡 NOTA
+El flag -m crea la migración, -c crea el controlador y -r lo hace 'resource' (con todos los métodos CRUD ya definidos vacíos).
+2
+Definir la estructura de la tabla en la Migración
+Abre el archivo de migración generado en database/migrations/. Su nombre termina en _create_estudiantes_table.php. Edita el método up():
+public function up(): void
+{
+    Schema::create('estudiantes', function (Blueprint $table) {
+        $table->id();                          // ID autoincremental
+        $table->string('nombre');              // Nombre del estudiante
+        $table->string('apellido');            // Apellido
+        $table->string('email')->unique();     // Email (único, no se repite)
+        $table->string('ficha');               // Número de ficha SENA
+        $table->string('programa');            // Programa de formación
+        $table->timestamps();                  // created_at y updated_at
+    });
+}
+Luego ejecuta la migración para crear la tabla en SQLite:
+php artisan migrate
+✅ CONSEJO
+Si necesitas hacer cambios a la migración después de ejecutarla, usa php artisan migrate:rollback para deshacerla, edita el archivo y vuelve a ejecutar php artisan migrate.
+3
+Configurar el Modelo Estudiante
+Abre app/Models/Estudiante.php y agrega la propiedad $fillable. Esto le dice a Laravel qué campos se pueden llenar masivamente (protección contra asignación masiva):
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+class Estudiante extends Model
+{
+    use HasFactory;
+    protected \$fillable = [
+        'nombre',
+        'apellido',
+        'email',
+        'ficha',
+        'programa',
+    ];
+}
+⚠️ IMPORTANTE
+Si no defines $fillable, Laravel lanzará un error MassAssignmentException cuando intentes guardar datos. Siempre declara los campos que aceptas.
+4
+Registrar las rutas RESTful en web.php
+Abre routes/web.php y agrega esta línea. Una sola línea crea las 7 rutas del CRUD automáticamente:
+<?php
+use App\Http\Controllers\EstudianteController;
+use Illuminate\Support\Facades\Route;
+Route::get('/', function () {
+    return view('welcome');
+});
+// Esta línea registra las 7 rutas RESTful del CRUD:
+Route::resource('estudiantes', EstudianteController::class);
+Verifica las rutas generadas ejecutando:
+php artisan route:list
+Archivo / Carpeta
+¿Para qué sirve?
+GET /estudiantes
+index() — Muestra la lista de todos los estudiantes
+GET /estudiantes/create
+create() — Muestra el formulario para crear uno nuevo
+POST /estudiantes
+store() — Recibe el formulario y guarda en la BD
+GET /estudiantes/{id}
+show() — Muestra el detalle de un estudiante
+GET /estudiantes/{id}/edit
+edit() — Muestra el formulario para editar
+PUT /estudiantes/{id}
+update() — Recibe el formulario y actualiza la BD
+DELETE /estudiantes/{id}
+destroy() — Elimina el estudiante de la BD
+5
+Programar el Controlador — los 4 métodos del CRUD
+Abre app/Http/Controllers/EstudianteController.php. Reemplaza el contenido completo con este código:
+<?php
+namespace App\Http\Controllers;
+use App\Models\Estudiante;
+use Illuminate\Http\Request;
+class EstudianteController extends Controller
+{
+    // READ — Listar todos los estudiantes
+    public function index()
+    {
+        \$estudiantes = Estudiante::all();
+        return view('estudiantes.index', compact('estudiantes'));
+    }
+    // CREATE — Mostrar formulario de creación
+    public function create()
+    {
+        return view('estudiantes.create');
+    }
+    // CREATE — Guardar el nuevo estudiante en la BD
+    public function store(Request \$request)
+    {
+        \$request->validate([
+            'nombre'   => 'required|min:2|max:100',
+            'apellido' => 'required|min:2|max:100',
+            'email'    => 'required|email|unique:estudiantes',
+            'ficha'    => 'required',
+            'programa' => 'required',
+        ]);
+        Estudiante::create(\$request->all());
+        return redirect()->route('estudiantes.index')
+                         ->with('success', 'Estudiante registrado correctamente.');
+    }
+    // UPDATE — Mostrar formulario de edición
+    public function edit(Estudiante \$estudiante)
+    {
+        return view('estudiantes.edit', compact('estudiante'));
+    }
+    // UPDATE — Guardar los cambios en la BD
+    public function update(Request \$request, Estudiante \$estudiante)
+    {
+        \$request->validate([
+            'nombre'   => 'required|min:2|max:100',
+            'apellido' => 'required|min:2|max:100',
+            'email'    => 'required|email|unique:estudiantes,email,'
+                          .\$estudiante->id,
+            'ficha'    => 'required',
+            'programa' => 'required',
+        ]);
+        \$estudiante->update(\$request->all());
+        return redirect()->route('estudiantes.index')
+                         ->with('success', 'Estudiante actualizado correctamente.');
+    }
+    // DELETE — Eliminar el estudiante
+    public function destroy(Estudiante \$estudiante)
+    {
+        \$estudiante->delete();
+        return redirect()->route('estudiantes.index')
+                         ->with('success', 'Estudiante eliminado correctamente.');
+    }
+}
+💡 NOTA
+Route Model Binding: cuando el método recibe Estudiante $estudiante como parámetro, Laravel automáticamente busca el estudiante por ID en la BD. No necesitas escribir Estudiante::find($id) manualmente.
+6
+Crear las Vistas Blade — Layout base
+Primero crea el layout base que compartirán todas las vistas. Crea la carpeta resources/views/layouts/ y dentro el archivo app.blade.php:
+{{-- resources/views/layouts/app.blade.php --}}
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>@yield('title', 'Gestión de Estudiantes')</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px;
+               margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        table { width:100%; border-collapse:collapse; background:white; }
+        th, td { padding:10px; text-align:left;
+                 border-bottom:1px solid #ddd; }
+        th { background:#006633; color:white; }
+        .btn { padding:8px 14px; border:none; border-radius:4px;
+               cursor:pointer; text-decoration:none;
+               display:inline-block; font-size:14px; }
+        .btn-primary  { background:#1565C0; color:white; }
+        .btn-warning  { background:#F57F17; color:white; }
+        .btn-danger   { background:#C62828; color:white; }
+        .btn-success  { background:#006633; color:white; }
+        .alert { padding:12px; margin:10px 0; border-radius:4px;
+                 background:#E8F5E9; border-left:4px solid #006633; }
+        input, select { width:100%; padding:8px; margin:6px 0;
+                        border:1px solid #ccc; border-radius:4px;
+                        box-sizing:border-box; }
+        .error { color:#C62828; font-size:13px; }
+        h1 { color:#004225; }
+    </style>
+</head>
+<body>
+    <h1>🎓 Gestión de Estudiantes — SENA</h1>
+    <hr>
+    @if(session('success'))
+        <div class='alert'>{{ session('success') }}</div>
+    @endif
+    @yield('content')
+</body>
+</html>
+7
+Vista index — Listar estudiantes
+Crea la carpeta resources/views/estudiantes/ y dentro el archivo index.blade.php:
+{{-- resources/views/estudiantes/index.blade.php --}}
+@extends('layouts.app')
+@section('title', 'Lista de Estudiantes')
+@section('content')
+    <a href='{{ route('estudiantes.create') }}' class='btn btn-success'>
+        + Registrar Nuevo Estudiante
+    </a>
+    <br><br>
+    @if(\$estudiantes->isEmpty())
+        <p>No hay estudiantes registrados aún.</p>
+    @else
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th><th>Nombre</th><th>Email</th>
+                    <th>Ficha</th><th>Programa</th><th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach(\$estudiantes as \$est)
+                <tr>
+                    <td>{{ \$est->id }}</td>
+                    <td>{{ \$est->nombre }} {{ \$est->apellido }}</td>
+                    <td>{{ \$est->email }}</td>
+                    <td>{{ \$est->ficha }}</td>
+                    <td>{{ \$est->programa }}</td>
+                    <td>
+                        <a href='{{ route('estudiantes.edit', \$est) }}'
+                           class='btn btn-warning'>Editar</a>
+                        <form action='{{ route('estudiantes.destroy', \$est) }}'
+                              method='POST' style='display:inline'>
+                            @csrf
+                            @method('DELETE')
+                            <button class='btn btn-danger'
+                                onclick='return confirm("¿Eliminar?")'>
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    @endif
+@endsection
+8
+Vista create — Formulario para registrar estudiante
+Crea resources/views/estudiantes/create.blade.php:
+{{-- resources/views/estudiantes/create.blade.php --}}
+@extends('layouts.app')
+@section('title', 'Registrar Estudiante')
+@section('content')
+    <h2>Registrar Nuevo Estudiante</h2>
+    @if(\$errors->any())
+        <div class='alert' style='border-color:#C62828; background:#FFEBEE'>
+            <strong>Por favor corrige los siguientes errores:</strong>
+            <ul>
+            @foreach(\$errors->all() as \$error)
+                <li class='error'>{{ \$error }}</li>
+            @endforeach
+            </ul>
+        </div>
+    @endif
+    <form action='{{ route('estudiantes.store') }}' method='POST'>
+        @csrf
+        <label>Nombre: <input type='text' name='nombre'
+               value='{{ old('nombre') }}' placeholder='Ej: Juan'></label>
+        <label>Apellido: <input type='text' name='apellido'
+               value='{{ old('apellido') }}' placeholder='Ej: Pérez'></label>
+        <label>Email: <input type='email' name='email'
+               value='{{ old('email') }}' placeholder='juan@email.com'></label>
+        <label>Número de Ficha: <input type='text' name='ficha'
+               value='{{ old('ficha') }}' placeholder='Ej: 2883614'></label>
+        <label>Programa: <input type='text' name='programa'
+               value='{{ old('programa') }}'
+               placeholder='Análisis y Desarrollo de Software'></label>
+        <br>
+        <button type='submit' class='btn btn-primary'>Guardar</button>
+        <a href='{{ route('estudiantes.index') }}' class='btn btn-danger'>
+            Cancelar</a>
+    </form>
+@endsection
+⚠️ IMPORTANTE
+La directiva @csrf agrega un token de seguridad oculto al formulario. Laravel lo verifica al recibir el POST. Sin @csrf obtendrás el error 419 Page Expired.
+9
+Vista edit — Formulario para editar estudiante
+Crea resources/views/estudiantes/edit.blade.php:
+{{-- resources/views/estudiantes/edit.blade.php --}}
+@extends('layouts.app')
+@section('title', 'Editar Estudiante')
+@section('content')
+    <h2>Editar Estudiante: {{ \$estudiante->nombre }}</h2>
+    @if(\$errors->any())
+        <div class='alert' style='border-color:#C62828; background:#FFEBEE'>
+            @foreach(\$errors->all() as \$error)
+                <li class='error'>{{ \$error }}</li>
+            @endforeach
+        </div>
+    @endif
+    <form action='{{ route('estudiantes.update', \$estudiante) }}' method='POST'>
+        @csrf
+        @method('PUT')
+        <label>Nombre: <input type='text' name='nombre'
+               value='{{ old('nombre', \$estudiante->nombre) }}'></label>
+        <label>Apellido: <input type='text' name='apellido'
+               value='{{ old('apellido', \$estudiante->apellido) }}'></label>
+        <label>Email: <input type='email' name='email'
+               value='{{ old('email', \$estudiante->email) }}'></label>
+        <label>Número de Ficha: <input type='text' name='ficha'
+               value='{{ old('ficha', \$estudiante->ficha) }}'></label>
+        <label>Programa: <input type='text' name='programa'
+               value='{{ old('programa', \$estudiante->programa) }}'></label>
+        <br>
+        <button type='submit' class='btn btn-warning'>Actualizar</button>
+        <a href='{{ route('estudiantes.index') }}' class='btn btn-danger'>
+            Cancelar</a>
+    </form>
+@endsection
+💡 NOTA
+La directiva @method('PUT') es necesaria porque los formularios HTML solo soportan GET y POST. Laravel la usa para simular PUT/PATCH/DELETE a través de POST.
+10
+Probar el CRUD completo
+Con el servidor corriendo (php artisan serve), ve a http://localhost:8000/estudiantes y prueba cada operación en orden:
+CREATE: Haz clic en '+ Registrar Nuevo Estudiante', llena el formulario y guarda. Verifica que aparece en la lista.
+READ: La lista debe mostrar el estudiante recién creado con todos sus datos.
+UPDATE: Haz clic en 'Editar', cambia algún dato y guarda. Verifica que el cambio se refleja en la lista.
+DELETE: Haz clic en 'Eliminar', confirma y verifica que desaparece de la lista.
+Validaciones: Intenta guardar el formulario vacío. Laravel debe mostrar los mensajes de error sin guardar nada.
+✅ CONSEJO
+Si algo no funciona, usa php artisan route:list para verificar que las rutas están registradas, y revisa storage/logs/laravel.log para ver el error detallado.
+3.7  Actividad de transferencia — Clase 2  (1 hora)
+Para finalizar la guía, cada aprendiz debe extender el CRUD con al menos dos de las siguientes mejoras:
+Agregar una columna 'telefono' a la tabla estudiantes mediante una nueva migración (php artisan make:migration add_telefono_to_estudiantes_table).
+Agregar una vista show (GET /estudiantes/{id}) que muestre todos los datos de un estudiante en una tarjeta detallada.
+Agregar un campo de búsqueda en la vista index que filtre la lista por nombre usando Eloquent: Estudiante::where('nombre', 'like', "%{$busqueda}%")->get().
+Mejorar el diseño visual usando Bootstrap 5 (CDN) en el layout app.blade.php en lugar del CSS personalizado básico.
+Entrega final: sube el proyecto completo a GitHub (rama main) con un README.md que incluya capturas de pantalla de cada operación del CRUD funcionando.
+✅ CONSEJO
+Instrucción para usar Tinker: una vez que tengas datos en la BD, prueba en la terminal: php artisan tinker, luego Estudiante::all() para ver todos los registros, o Estudiante::where('programa', 'ADSO')->count() para contar. Es una forma poderosa de probar tu modelo sin usar el navegador.
+4.  PLANTEAMIENTO DE EVIDENCIAS DE APRENDIZAJE PARA LA EVALUACIÓN
+Clase
+Actividad
+Evidencia
+Criterios
+Instrumento
+Clase 1
+Instalación y configuración
+Proyecto Laravel corriendo en localhost con ruta y vista personalizadas. Repositorio GitHub.
+PHP, Composer y Laravel instalados correctamente. La ruta /bienvenida funciona. README con pasos claros.
+Lista de chequeo
+Clase 1
+Comandos Artisan
+Bitácora con 5 comandos Artisan documentados y su explicación.
+Describe con sus propias palabras qué hace cada comando y cuándo usarlo.
+Revisión de bitácora
+Clase 2
+CRUD funcional
+Aplicación web con CRUD completo de estudiantes. Las 4 operaciones funcionan correctamente.
+Se pueden crear, listar, editar y eliminar estudiantes. Las validaciones funcionan. Los mensajes de éxito aparecen.
+Rúbrica de proyecto
+Clase 2
+Extensión del CRUD
+Al menos 2 mejoras implementadas de las propuestas en la actividad de transferencia.
+Las mejoras funcionan correctamente y están subidas al repositorio GitHub.
+Observación directa + revisión del repositorio
+5.  GLOSARIO DE TÉRMINOS
+Término
+Definición
+Laravel
+Framework PHP de código abierto basado en el patrón MVC, creado por Taylor Otwell en 2011. Ofrece herramientas integradas para routing, ORM, autenticación, caché y más.
+Composer
+Gestor de dependencias para PHP (equivalente a npm en Node.js). Permite instalar, actualizar y gestionar los paquetes que usa un proyecto PHP.
+Artisan
+Interfaz de línea de comandos (CLI) de Laravel. Automatiza tareas como crear archivos, ejecutar migraciones, limpiar caché y arrancar el servidor.
+MVC
+Patrón de arquitectura Model-View-Controller. Separa los datos (Model), la presentación (View) y la lógica (Controller) para organizar mejor el código.
+Eloquent ORM
+ORM de Laravel que permite interactuar con la base de datos usando objetos PHP en lugar de SQL. Cada tabla tiene un Modelo correspondiente.
+Blade
+Motor de plantillas de Laravel. Permite escribir vistas PHP con directivas limpias: @extends, @section, @foreach, @if, {{ $variable }}.
+Migración
+Archivo PHP que define los cambios en la estructura de la BD (crear, modificar o eliminar tablas). Funciona como control de versiones para la base de datos.
+Route Model Binding
+Función de Laravel que inyecta automáticamente el objeto del modelo como parámetro del controlador a partir del ID de la URL, sin necesidad de hacer la consulta manualmente.
+$fillable
+Propiedad del Modelo que lista los campos que se pueden asignar masivamente. Es una medida de seguridad contra la asignación masiva no autorizada.
+SQLite
+Motor de base de datos embebido que almacena todos los datos en un único archivo .sqlite. No requiere servidor separado, ideal para desarrollo y aprendizaje.
+@csrf
+Directiva Blade que inserta un token de seguridad en los formularios para proteger contra ataques CSRF (Cross-Site Request Forgery).
+@method('PUT')
+Directiva Blade que simula métodos HTTP (PUT, PATCH, DELETE) en formularios, ya que HTML nativo solo soporta GET y POST.
+6.  REFERENTES BIBLIOGRÁFICOS
+Bibliografía y webgrafía de referencia:
+Laravel Documentation (oficial) — https://laravel.com/docs
+Laracasts: Laravel From Scratch (Laravel 11) — https://laracasts.com/series/laravel-11-from-scratch
+PHP Documentation — https://www.php.net/docs.php
+Composer Documentation — https://getcomposer.org/doc
+Artisan Cheatsheet — https://artisan.page
+SQLite Documentation — https://www.sqlite.org/docs.html
+Git Documentation — https://git-scm.com/doc
+VS Code Laravel Blade Snippets Extension — https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel-blade
+PHP: The Right Way — https://phptherightway.com
+7.  CONTROL DEL DOCUMENTO
+Nombre
+Cargo
+Dependencia
+Fecha
+Autor(es)
+Mario — Instructor SENA
+Instructor de Formación
+ADSO — 228185
+2026
+8.  CONTROL DE CAMBIOS
+Nombre
+Cargo
+Dependencia
+Fecha
+Razón del Cambio
+Autor(es)
